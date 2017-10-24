@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    mavenCentral()
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.0'
@@ -46,10 +50,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
+    //https://developers.google.com/api-client-library/java/google-http-java-client/setup#google-http-client-android
     //compile 'com.google.http-client:google-http-client-android:1.19.0'
     // https://developers.google.com/api-client-library/java/
     compile 'com.google.api-client:google-api-client:1.22.0'
+    compile 'com.google.http-client:google-http-client-android:1.22.0' exclude module: 'httpclient'
     //compile 'com.google.api-client-android:google-api-client-android:1.22.0'
     // add jokeslib as the dependencies
     compile project(':jokeslib')
