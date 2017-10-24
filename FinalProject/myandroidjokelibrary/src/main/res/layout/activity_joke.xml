@@ -1,0 +1,34 @@
+<ScrollView
+    android:id="@+id/scrollview_joke"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShowJokeActivity">
+<!--
+    <fragment
+        android:id="@+id/joke_fragment"
+        android:name="com.project2.myandroidjokelibrary.JokeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_joke" />
+        -->
+    <LinearLayout
+        android:id="@+id/parent_joke"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/joke_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/str_no_joke"
+            android:padding="8dp"
+            android:textSize="24sp"
+            android:layout_gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+</ScrollView>
+
+
