@@ -54,15 +54,17 @@ public class ShowJokeActivity extends AppCompatActivity {
             if (bundle != null && bundle.containsKey(ShowJokeActivity.JOKE_LIST_KEY)) {
                 ArrayList<String> jokeList = bundle.getStringArrayList(ShowJokeActivity.JOKE_LIST_KEY);
                 mJokeList = jokeList;
-                if (mJokeList!= null && mJokeList.size() > 0) {
-                   // mJokeFragment.updateJokeContent(mJokeList.get(0));
-                   updateJokeContent(mJokeList.get(0));
-                } else {
-                    // mJokeFragment.updateJokeContent(getString(R.string.str_no_joke));
-                    updateJokeContent(getString(R.string.str_no_joke));
-                }
+
             }
 
+        }
+
+        if (mJokeList!= null && mJokeList.size() > 0) {
+            // mJokeFragment.updateJokeContent(mJokeList.get(0));
+            updateJokeContent(mJokeList.get(0));
+        } else {
+            // mJokeFragment.updateJokeContent(getString(R.string.str_no_joke));
+            updateJokeContent(getString(R.string.str_no_joke));
         }
 
 
