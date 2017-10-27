@@ -108,10 +108,11 @@ task startAppEngine (dependsOn: ":backend:appengineRun") {
 //    }
 //}
 
+// need to move into the /app directory and run by "gradle startAsyncTaskTest"
 task startAsyncTaskTest(dependsOn: ":app:startAppEngine") {
 
     dependsOn {
-        "connnectedAndroidTest"
+        "connectedAndroidTest"
     }
     finalizedBy ":backend:appengineStop"
     doLast {
