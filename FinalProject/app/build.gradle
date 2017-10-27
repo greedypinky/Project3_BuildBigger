@@ -62,18 +62,6 @@ dependencies {
 //        exclude group: 'com.android.support', module: 'support-annotations'
 //    })
 
-    //https://developers.google.com/api-client-library/java/google-http-java-client/setup#google-http-client-android
-    //compile 'com.google.http-client:google-http-client-android:1.19.0'
-    // https://developers.google.com/api-client-library/java/
-   // compile 'com.google.api-client:google-api-client:1.22.0'
-   // compile 'com.google.http-client:google-http-client-android:1.22.0' exclude module: 'httpclient'
-    // add the backend API library
-   // compile project(path: ':backend', configuration: 'android-endpoints')
-   //  compile files('libs/backend-android-endpoints.jar')
-    //compile 'com.google.api-client-android:google-api-client-android:1.22.0'
-
-
-    //compile 'com.google.http-client:google-http-client-android:1.19.0'
     // https://developers.google.com/api-client-library/java/
     compile 'com.google.api-client:google-api-client:1.22.0'
     compile 'com.google.http-client:google-http-client-android:1.22.0' exclude module: 'httpclient'
@@ -123,7 +111,7 @@ task startAppEngine (dependsOn: ":backend:appengineRun") {
 task startAsyncTaskTest(dependsOn: ":app:startAppEngine") {
 
     dependsOn {
-        "test"
+        "connnectedAndroidTest"
     }
     finalizedBy ":backend:appengineStop"
     doLast {
@@ -134,15 +122,3 @@ task startAsyncTaskTest(dependsOn: ":app:startAppEngine") {
 }
 
 
-//This task starts the the app engine, runs the test  for the Async Task, and finally stops the app engine
-//task runAppEngineAndTest (dependsOn: ":jokebackend:appengineRun") {
-//    project(":jokebackend").afterEvaluate { backend ->
-//        backend.extensions.appengine.daemon = true
-//    }
-//    doLast {
-//        println "started the server!"
-//    }
-//}
-//
-//runAppEngineAndTest.finalizedBy runTest
-//runTest.finalizedBy ":jokebackend:appengineStop"
