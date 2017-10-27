@@ -41,7 +41,9 @@ appengine {
         // https://github.com/google/apis-client-generator/issues/34
         googleClientVersion = '1.23.0'
     }
-    // httpAddress = "0.0.0.0"
+
+    httpAddress = "0.0.0.0"
+
 
 
 }

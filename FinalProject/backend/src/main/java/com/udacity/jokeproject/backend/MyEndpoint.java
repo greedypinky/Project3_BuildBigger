@@ -10,6 +10,8 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 
+import java.util.Random;
+
 import javax.inject.Named;
 
 /**
@@ -43,7 +45,13 @@ public class MyEndpoint {
     @ApiMethod(name = "sayJoke")
     public GetJokeBean sayJoke() {
         GetJokeBean response = new GetJokeBean();
-        String theJoke = response.getJokeData().get(0); // get the first joke
+        int index = 0;
+        if (response.getJokeData().size() > 0) {
+            Random random = new Random();
+            index = random.nextInt(response.getJokeData().size());
+        }
+
+        String theJoke = response.getJokeData().get(index); // get the joke by index
         response.setJoke(theJoke);
 
         return response;

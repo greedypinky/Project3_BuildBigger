@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:visibility="gone"
+        android:layout_below="@+id/but_poke_joke"
         />
 
     <com.google.android.gms.ads.AdView

@@ -57,11 +57,6 @@ public class GCE_EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Voi
 //                        });
                 // end options for devappserver
 
-
-//                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-//                        .setRootUrl("https://android-app-backend.appspot.com/_ah/api/");
-
-            // where android-app-backend corresponds to your own Project ID created in section 2.2.
             //  Go to https://console.cloud.google.com/ to check the deployed link
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://telljokeproject.appspot.com/_ah/api/");
@@ -87,10 +82,9 @@ public class GCE_EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Voi
         Toast.makeText(context, "OnPostExecute:" + result, Toast.LENGTH_LONG).show();
         // init the joke data after getting it from the EndPoint's API Service
         Log.d("GCE_EndpointsAsyncTask","Joke from the EndPoint's API Service:" + result);
-        // mJoke = result;
-        // mJokeList.add(mJoke);
-        // removeProgressIndicator();
-        delegate.processFinish(result); // use callback to pass back the result
+        if (delegate!=null) {
+            delegate.processFinish(result); // use callback to pass back the result
+        }
     }
 
 

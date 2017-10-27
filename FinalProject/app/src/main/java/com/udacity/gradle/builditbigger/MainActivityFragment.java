@@ -17,18 +17,11 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-//import com.google.api.client.extensions.android.http.AndroidHttp;
-//import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-//import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-//import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.google.android.gms.ads.MobileAds;
 
 
 import com.joke.JokesLibraryClass;
 import com.project2.myandroidjokelibrary.ShowJokeActivity;
-import com.udacity.jokeproject.backend.myApi.MyApi;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -62,8 +55,6 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // GCE_EndpointsAsyncTask endpointsAsyncTask = new GCE_EndpointsAsyncTask();
-
         View root = inflater.inflate(R.layout.fragment_main, container, false);
 
         mIndicator = (ProgressBar) root.findViewById(R.id.progress_indicator);
@@ -83,10 +74,9 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
                     mInterstitial.show();
                 } else {
 
-                    Toast.makeText(getContext(), "Show the ads once already!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Do not show the Ads!", Toast.LENGTH_SHORT).show();
                 }
 
-                //tellJoke(v);
                 boolean useBackEnd=true;
                 tellJokeByGCEModule(useBackEnd);
             }
@@ -119,6 +109,7 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
                     .build();
             // mAdView.loadAd(adRequest);
             mInterstitial.loadAd(adRequest);
+            // mInterstitial.setAdListener(this);
 
         } else {
             Toast.makeText(getContext(), "This is a paid version", Toast.LENGTH_SHORT).show();
@@ -146,36 +137,6 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
         }
     }
 
-    // Press the button will trigger this method
-    public void tellJoke(View view)
-    {
-        // TODO: Add a loading indicator
-        // that is shown while the joke is being retrieved,
-        // and disappears when the joke is ready. This tutorial is a good place to start.
-        Toast.makeText(getContext(), "Poke a joke from Joke Library!!", Toast.LENGTH_SHORT).show();
-        if (mJokeList!=null && mJokeList.size() == 0) {
-            Log.e(TAG,"Get Joke from Java Library");
-            // TODO: we need to get the data from the Joke library
-            Log.d(TAG,"call the GetJokeAsyncTask");
-            // Get the Joke data by using the AsyncTask
-            new GetJokeAsyncTask().execute();
-
-            //ArrayList<String> jokeListFromJavaLib = JokesLibraryClass.getJokes();
-            //mJokeList = jokeListFromJavaLib;
-
-        }
-
-        // else we have joke data
-        // TODO: pass the Joke here as the Intent to the AndroidLibrary 's Class
-        Log.e(TAG,"Pass the Data to the ShowJokeActivity");
-        Log.e(TAG,"what is the mJokeList size?" + mJokeList.size());
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
-        Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
-        jokeIntent.putExtra("bundle",bundle);
-        startActivity(jokeIntent);
-
-    }
 
 //   TODO:     Step 3: Create GCE Module
 //        This next task will be pretty tricky. Instead of pulling jokes directly from our Java library, we'll set up a GCE development server, and pull our jokes from there. Follow the instructions in this tutorial to add a GCE module to your project:
@@ -199,6 +160,16 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
             new GetJokeAsyncTask().execute();
         }
 
+    }
+
+    // callback from the EndpointAsyncTask to pass back the result to the Fragment
+    @Override
+    public void processFinish(String result) {
+        mJoke = result;
+        mJokeList.add(mJoke);
+        Toast.makeText(getContext(), "OnPostExecute:" + result, Toast.LENGTH_LONG).show();
+
+        // remove the progress indicator
         removeProgressIndicator();
 
         // else we have joke data
@@ -209,16 +180,6 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
         Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
         jokeIntent.putExtra("bundle",bundle);
         startActivity(jokeIntent);
-
-    }
-
-    // callback from the EndpointAsyncTask to pass back the result to the Fragment
-    @Override
-    public void processFinish(String result) {
-        mJoke = result;
-        mJokeList.add(mJoke);
-        Toast.makeText(getContext(), "OnPostExecute:" + result, Toast.LENGTH_LONG).show();
-
     }
 
     // Use an async task to do the data fetch off of the main thread.
@@ -246,6 +207,14 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
             // init the local Joke list after getting it from the Joke library
             mJokeList = jokeList;
             removeProgressIndicator();
+
+            // Start the ShowJokeActivity to show the Joke
+            Log.e(TAG,"Pass the Data to the ShowJokeActivity");
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+            Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
+            jokeIntent.putExtra("bundle",bundle);
+            startActivity(jokeIntent);
         }
     }
 
@@ -253,6 +222,7 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
    1.gcloud init
 Welcome! This command will take you through the configuration of gcloud.
    You are logged in as: [marukotest888@gmail.com].
+
   2.gcloud app create
 Pick cloud project to use:
  [1] fir-demo-project
@@ -283,99 +253,6 @@ target url:      [https://telljokeproject.appspot.com]
     // known issue
     // https://github.com/google/apis-client-generator/issues/34
     // name : JokeProject
-    // id : jokeproject-183804
-    /*
-     class GCE_EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-        // private static MyApi myApiService = null;
-        //private MyApi myApiService = null;
-        private Context context;
+    // id : jokeproject
 
-        @Override
-        protected void onPreExecute() {
-            showProgressIndicator();
-            super.onPreExecute();
-        }
-
-        // https://discussions.udacity.com/t/project-build-it-bigger-error-while-creating-a-google-cloud-endpoints-gce/388662
-        @Override
-        protected String doInBackground(Pair<Context, String>... params) {
-            if(myApiService == null) {  // Only do this once
-                /*
-                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-                        new AndroidJsonFactory(), null)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
-                        .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                            @Override
-                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                abstractGoogleClientRequest.setDisableGZipContent(true);
-                            }
-                        });
-                // end options for devappserver
-                */
-
-    /*
-    // put the class outside
-    public class GCEModuleAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
-
-
-        // Invoked on a background thread
-        @Override
-        protected ArrayList<String> doInBackground(Void... params) {
-            // Make the query to get the data
-            showProgressIndicator();
-            // Use GCEModule Server to get the Data
-            return null;
-        }
-
-
-        // Invoked on UI thread
-        @Override
-        protected void onPostExecute(ArrayList<String> jokeList) {
-            super.onPostExecute(jokeList);
-            // init the local Joke list after getting it from the Joke library
-            mJokeList = jokeList;
-            removeProgressIndicator();
-
-        }
-    }
-
-
-
-
-//                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-//                        .setRootUrl("https://android-app-backend.appspot.com/_ah/api/");
-
-                // where android-app-backend corresponds to your own Project ID created in section 2.2.
-                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
-                        .setRootUrl("https://jokeproject-183804.appspot.com/_ah/api/");
-
-                myApiService = builder.build();
-            }
-
-            context = params[0].first;
-            String name = params[0].second;
-
-            try {
-                // return myApiService.sayHi(name).execute().getData();
-                return myApiService.sayJoke().execute().getData();
-            } catch (IOException e) {
-                return e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-            // init the joke data after getting it from the EndPoint's API Service
-            Log.d(TAG,"Joke from the EndPoint's API Service:" + result);
-            mJoke = result;
-            mJokeList.add(mJoke);
-            removeProgressIndicator();
-        }
-    }
-
-    */
 }
