@@ -56,8 +56,7 @@ public class GCEBackEndTest extends ApplicationTestCase<Application> {
            GCE_EndpointsAsyncTask task = new GCE_EndpointsAsyncTask(new GCE_EndpointsAsyncTask.AsyncResponse() {
                @Override
                public void processFinish(String result) {
-
-
+                   
                    assertNotNull("Error:Unable to get the joke!",result); // assert the joke is not null!
                    assertTrue("Joke size is 0", (result.length() > 0));
                    latch.countDown(); // decrease the count of latch to 0 to resume the Testing thread

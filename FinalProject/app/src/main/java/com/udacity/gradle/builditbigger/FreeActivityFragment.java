@@ -60,26 +60,6 @@ public class FreeActivityFragment extends Fragment implements GCE_EndpointsAsync
         mPokeJokeButton = (Button) root.findViewById(R.id.but_poke_joke);
         AdView mAdView = (AdView) root.findViewById(R.id.adView);
 
-        mPokeJokeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // TODO: Add Interstitial Adv-
-                // Follow these instructions to add an interstitial ad to the free version.
-                // Display the ad after the user hits the button, and before the joke is shown.
-
-                // Only show when it is a FREE application
-                if( mInterstitial!=null && mInterstitial.isLoaded()) {
-                    mInterstitial.show();
-                } else {
-
-                    Toast.makeText(getContext(), "Do not show the Ads!", Toast.LENGTH_SHORT).show();
-                }
-
-                boolean useBackEnd=true;
-                tellJokeByGCEModule(useBackEnd);
-            }
-        });
 
 
 //
@@ -94,25 +74,52 @@ public class FreeActivityFragment extends Fragment implements GCE_EndpointsAsync
             Toast.makeText(getContext(), "This is a free version", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "This is a free version - show ads!!");
             // initializse Mobile Ads SDK with the AdMob App ID
-            MobileAds.initialize(getActivity(), AD_MOB_APP_ID);
-
-            mInterstitial= new InterstitialAd(getContext());
-            mInterstitial.setAdUnitId(AD_MOB_UNIT_ID); // TODO: replace ID please
-
-           // AdView mAdView = (AdView) root.findViewById(R.id.adView);
-            // Create an ad request. Check logcat output for the hashed device ID to
-            // get test ads on a physical device. e.g.
-            // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-            AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                    .build();
-            // mAdView.loadAd(adRequest);
-            mInterstitial.loadAd(adRequest);
-            // mInterstitial.setAdListener(this);
+           initAds();
 
         }
 
+        mPokeJokeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // TODO: Add Interstitial Adv-
+                // Follow these instructions to add an interstitial ad to the free version.
+                // Display the ad after the user hits the button, and before the joke is shown.
+
+                // Only show when it is a FREE application
+                if( mInterstitial!=null && mInterstitial.isLoaded()) {
+                    mInterstitial.show();
+                } else {
+                    // Toast.makeText(getContext(), "why mInterstitila is null?" , Toast.LENGTH_SHORT).show();
+                    initAds();
+                    mInterstitial.show();
+                }
+
+                boolean useBackEnd=true;
+                tellJokeByGCEModule(useBackEnd);
+            }
+        });
+
         return root;
+    }
+
+    private void initAds () {
+
+        // initializse Mobile Ads SDK with the AdMob App ID
+        MobileAds.initialize(getActivity(), AD_MOB_APP_ID);
+
+        mInterstitial = new InterstitialAd(getContext());
+        mInterstitial.setAdUnitId(AD_MOB_UNIT_ID); // TODO: replace ID please
+
+        // AdView mAdView = (AdView) root.findViewById(R.id.adView);
+        // Create an ad request. Check logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        // mAdView.loadAd(adRequest);
+        mInterstitial.loadAd(adRequest);
     }
 
     /**

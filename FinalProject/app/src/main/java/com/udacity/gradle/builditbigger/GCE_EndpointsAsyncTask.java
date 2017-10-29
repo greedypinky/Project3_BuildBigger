@@ -95,6 +95,14 @@ public class GCE_EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Voi
 
     }
 
+    @Override
+    protected void onCancelled(String s) {
+        Log.d("GCE_EndpointsAsyncTask","The task has been cancelled!!" );
+        super.onCancelled(s);
+        if (delegate!=null) {
+            delegate.processFinish(null); // use callback to pass back the result
+        }
+    }
 }
 
 
