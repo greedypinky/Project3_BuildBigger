@@ -33,12 +33,13 @@ android {
             // all characters must be alphanumeric or an underscore
             applicationIdSuffix ".free"
             versionNameSuffix "-free"
-
         }
 
         paid {
             applicationIdSuffix ".paid"
             versionNameSuffix "-paid"
+            // add the paid folder so add the new package for the paid productFlavors
+            applicationId = "com.udacity.gradle.builditbigger.paid"
         }
 
     }
@@ -46,6 +47,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
 
 
 }
@@ -72,6 +74,8 @@ dependencies {
     compile project(':myandroidjokelibrary')
     compile 'com.android.support:appcompat-v7:26.0.0'
     // add the google ads library
+    // add a compile dependency only to your "free" product flavor
+    //freeCompile 'com.google.android.gms:play-services-ads:9.0.2'
     compile 'com.google.android.gms:play-services-ads:9.0.2'
     compile 'com.google.code.findbugs:jsr305:2.0.1'
     // add the backend API library

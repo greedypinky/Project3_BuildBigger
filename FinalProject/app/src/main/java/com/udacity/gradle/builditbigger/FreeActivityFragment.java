@@ -2,7 +2,6 @@ package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
@@ -18,17 +17,17 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-
-
-import com.joke.JokesLibraryClass;
 import com.project2.myandroidjokelibrary.ShowJokeActivity;
+import com.udacity.gradle.builditbigger.BuildConfig;
+import com.udacity.gradle.builditbigger.R;
+
 import java.util.ArrayList;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment implements GCE_EndpointsAsyncTask.AsyncResponse  {
+public class FreeActivityFragment extends Fragment implements GCE_EndpointsAsyncTask.AsyncResponse, GetJokeAsyncTask.AsyncResponse  {
 
     // App ID: ca-app-pub-3160158119336562~7703910721
     /*Follow the SDK integration guide. Specify ad type, size, and placement when you integrate the code.
@@ -37,9 +36,9 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
     */
     private static final String AD_MOB_APP_ID = "ca-app-pub-3160158119336562~7703910721";
     private static final String AD_MOB_UNIT_ID = "ca-app-pub-3160158119336562/5237884703";
-    private static final String freeApplicationIdSuffix  = "free";
-    private static final String paidApplicationIdSuffix  = "paid";
-    private static final String TAG = MainActivityFragment.class.getSimpleName();
+    public static final String freeApplicationIdSuffix  = "free";
+    public static final String paidApplicationIdSuffix  = "paid";
+    private static final String TAG = FreeActivityFragment.class.getSimpleName();
     private ProgressBar mIndicator;
     private Button mPokeJokeButton;
     ArrayList<String> mJokeList = new ArrayList<String>(); // no joke until we get jokes from joke library
@@ -48,7 +47,7 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
     // private static MyApi myApiService = null;
     private InterstitialAd mInterstitial;
 
-    public MainActivityFragment() {
+    public FreeActivityFragment() {
     }
 
     @Override
@@ -111,9 +110,6 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
             mInterstitial.loadAd(adRequest);
             // mInterstitial.setAdListener(this);
 
-        } else {
-            Toast.makeText(getContext(), "This is a paid version", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Great! This is a PAID version - no ads!!");
         }
 
         return root;
@@ -157,7 +153,7 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
             new GCE_EndpointsAsyncTask(this).execute(new Pair<Context, String>(getActivity(), "Manfred"));
         } else {
             // Get the Joke data by using the AsyncTask
-            new GetJokeAsyncTask().execute();
+            new GetJokeAsyncTask(this).execute();
         }
 
     }
@@ -182,41 +178,28 @@ public class MainActivityFragment extends Fragment implements GCE_EndpointsAsync
         startActivity(jokeIntent);
     }
 
+    @Override
+    public void getFromLibraryProcessFinish(ArrayList<String> jokeList) {
+
+        mJokeList = jokeList;
+        if(mJokeList!= null && mJokeList.size() == 0) {
+            mJokeList.add(getString(R.string.defaultJoke));
+        }
+        // remove the progress indicator
+        removeProgressIndicator();
+
+        // else we have joke data
+        // TODO: pass the Joke here as the Intent to the AndroidLibrary 's Class
+        Log.e(TAG,"Pass the Data to the ShowJokeActivity");
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
+        jokeIntent.putExtra("bundle",bundle);
+        startActivity(jokeIntent);
+    }
+
     // Use an async task to do the data fetch off of the main thread.
 
-    public class GetJokeAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
-        // Invoked on UI thread before the task is executed on a background thread
-        @Override
-        protected void onPreExecute() {
-            showProgressIndicator();
-            super.onPreExecute();
-        }
-
-        // Invoked on a background thread
-        @Override
-        protected ArrayList<String> doInBackground(Void... params) {
-            // Use the Java library's to get the Joke data
-            ArrayList<String> jokeListFromJavaLib = JokesLibraryClass.getJokes();
-            return jokeListFromJavaLib;
-        }
-
-        // Invoked on UI thread
-        @Override
-        protected void onPostExecute(ArrayList<String> jokeList) {
-            super.onPostExecute(jokeList);
-            // init the local Joke list after getting it from the Joke library
-            mJokeList = jokeList;
-            removeProgressIndicator();
-
-            // Start the ShowJokeActivity to show the Joke
-            Log.e(TAG,"Pass the Data to the ShowJokeActivity");
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
-            Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
-            jokeIntent.putExtra("bundle",bundle);
-            startActivity(jokeIntent);
-        }
-    }
 
      /*
    1.gcloud init

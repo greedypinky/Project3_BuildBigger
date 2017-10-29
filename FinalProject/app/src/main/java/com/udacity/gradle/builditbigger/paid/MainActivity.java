@@ -1,36 +1,40 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.paid;
 
 import android.os.Bundle;
+import android.support.v4.BuildConfig;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.udacity.gradle.builditbigger.BuildConfig;
+import com.udacity.gradle.builditbigger.paid.*;
+import com.udacity.gradle.builditbigger.paid.PaidActivityFragment;
 import com.udacity.gradle.builditbigger.R;
 
 import java.util.ArrayList;
 
-//https://robusttechhouse.com/how-to-build-multiple-variants-of-apks-in-android-studio/
+
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
-    FreeActivityFragment mGetJokeFragment;
+    private static final String TAG = com.udacity.gradle.builditbigger.paid.MainActivity.class.getSimpleName();
+    private static final String PAID_SUFFIX= "paid";
+    PaidActivityFragment mGetJokeFragment;
     ArrayList<String> mJokeList = new ArrayList<String>(); // no joke until we get jokes from joke library
     int currentJokeIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_paid);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Toast.makeText(this, "what is buildConfig.Flavor?" + BuildConfig.FLAVOR , Toast.LENGTH_SHORT).show();
-        if (BuildConfig.FLAVOR.contains(FreeActivityFragment.freeApplicationIdSuffix)) {
-            Toast.makeText(this, "This is a free version", Toast.LENGTH_SHORT).show();
-            mGetJokeFragment = (FreeActivityFragment) fragmentManager.findFragmentById(R.id.getjoke_fragment);
+        if (BuildConfig.FLAVOR.contains(PAID_SUFFIX)) {
+            Toast.makeText(this, "This is a paid version", Toast.LENGTH_SHORT).show();
+            mGetJokeFragment = (PaidActivityFragment) fragmentManager.findFragmentById(R.id.paid_getjoke_fragment);
 
         }
+
     }
 
 
