@@ -41,7 +41,7 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
     private static final String AD_MOB_UNIT_ID = "ca-app-pub-3160158119336562/5237884703";
     private static final String freeApplicationIdSuffix  = "free";
     private static final String paidApplicationIdSuffix  = "paid";
-    private static final String TAG = com.udacity.gradle.builditbigger.paid.PaidActivityFragment.class.getSimpleName();
+    private static final String TAG = PaidActivityFragment.class.getSimpleName();
     private ProgressBar mIndicator;
     private Button mPokeJokeButton;
     ArrayList<String> mJokeList = new ArrayList<String>(); // no joke until we get jokes from joke library

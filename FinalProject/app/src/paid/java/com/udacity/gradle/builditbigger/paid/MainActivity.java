@@ -8,15 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.udacity.gradle.builditbigger.paid.*;
-import com.udacity.gradle.builditbigger.paid.PaidActivityFragment;
 import com.udacity.gradle.builditbigger.R;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = com.udacity.gradle.builditbigger.paid.MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
     private static final String PAID_SUFFIX= "paid";
     PaidActivityFragment mGetJokeFragment;
     ArrayList<String> mJokeList = new ArrayList<String>(); // no joke until we get jokes from joke library
