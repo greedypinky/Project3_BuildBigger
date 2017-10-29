@@ -37,6 +37,10 @@ public class GCEBackEndTest extends ApplicationTestCase<Application> {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        if(latch.getCount() > 0 ) {
+
+            latch.countDown();
+        }
     }
 
     @Override
