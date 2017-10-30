@@ -64,9 +64,10 @@ public class GCEBackEndTest extends ApplicationTestCase<Application> {
                }
            });
 
-          // task.execute();
+          task.setRunLocal(true); // tried also to run against the local backend app - need to start up the local backend first
+          task.execute();
            // Testing thread will wait util AsyncTask finish its task
-          // latch.await();
+          latch.await();
 
 
     }
