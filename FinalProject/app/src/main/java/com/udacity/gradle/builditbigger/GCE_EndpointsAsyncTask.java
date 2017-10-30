@@ -20,6 +20,7 @@ public class GCE_EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Voi
     private static MyApi myApiService = null;
     private Context context;
     private boolean runLocal = false;
+    private String mJoke = "";
 
     public AsyncResponse delegate = null; // activity will implement this method
 
@@ -96,11 +97,17 @@ public class GCE_EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Voi
     @Override
     protected void onPostExecute(String result) {
         Toast.makeText(context, "OnPostExecute:" + result, Toast.LENGTH_LONG).show();
+        mJoke = result;
         // init the joke data after getting it from the EndPoint's API Service
         Log.d("GCE_EndpointsAsyncTask","Joke from the EndPoint's API Service:" + result);
         if (delegate!=null) {
             delegate.processFinish(result); // use callback to pass back the result
         }
+    }
+
+    public static String getJoke() {
+
+        return getJoke();
     }
 
 

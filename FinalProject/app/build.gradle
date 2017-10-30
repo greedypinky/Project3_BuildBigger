@@ -60,9 +60,9 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
-//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
+    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 
     // https://developers.google.com/api-client-library/java/
     compile 'com.google.api-client:google-api-client:1.22.0'

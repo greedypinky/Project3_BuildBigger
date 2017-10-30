@@ -1,6 +1,8 @@
 package com.udacity.gradle.builditbigger;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.support.v4.util.Pair;
 import android.test.ApplicationTestCase;
 import android.test.InstrumentationTestCase;
 
@@ -65,7 +67,7 @@ public class GCEBackEndTest extends ApplicationTestCase<Application> {
            });
 
           task.setRunLocal(true); // tried also to run against the local backend app - need to start up the local backend first
-          task.execute();
+          task.execute(new Pair<Context, String>(this.getContext(), "Manfred"));
            // Testing thread will wait util AsyncTask finish its task
           latch.await();
 
