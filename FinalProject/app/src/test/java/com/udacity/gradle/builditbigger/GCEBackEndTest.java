@@ -39,7 +39,8 @@ public class GCEBackEndTest extends ApplicationTestCase<Application> {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        if(latch.getCount() > 0 ) {
+
+        if(latch != null && latch.getCount() > 0 ) {
 
             latch.countDown();
         }
@@ -61,7 +62,9 @@ public class GCEBackEndTest extends ApplicationTestCase<Application> {
                    
                    assertNotNull("Error:Unable to get the joke!",result); // assert the joke is not null!
                    assertTrue("Joke size is 0", (result.length() > 0));
-                   latch.countDown(); // decrease the count of latch to 0 to resume the Testing thread
+                   if (latch !=null && latch.getCount() > 0) {
+                       latch.countDown(); // decrease the count of latch to 0 to resume the Testing thread
+                   }
 
                }
            });

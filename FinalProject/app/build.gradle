@@ -48,8 +48,6 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-
-
 }
 
 // resolve conflict for test app that uses (25.4.0)
@@ -64,6 +62,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+   compile('com.android.support.test.espresso:espresso-idling-resource:3.0.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
     // https://developers.google.com/api-client-library/java/
     compile 'com.google.api-client:google-api-client:1.22.0'
     compile 'com.google.http-client:google-http-client-android:1.22.0' exclude module: 'httpclient'
@@ -75,8 +77,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.0'
     // add the google ads library
     // add a compile dependency only to your "free" product flavor
-    //freeCompile 'com.google.android.gms:play-services-ads:9.0.2'
-    compile 'com.google.android.gms:play-services-ads:9.0.2'
+    // Fix: Since ads are only relevant for the free version, you should use the free variant and compile it only in that case.
+    freeCompile 'com.google.android.gms:play-services-ads:9.0.2'
+    //compile 'com.google.android.gms:play-services-ads:9.0.2'
     compile 'com.google.code.findbugs:jsr305:2.0.1'
     // add the backend API library
     compile project(path: ':backend', configuration: 'android-endpoints')

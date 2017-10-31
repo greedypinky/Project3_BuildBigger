@@ -3,6 +3,9 @@ package com.udacity.gradle.builditbigger.paid;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.util.Log;
@@ -20,11 +23,6 @@ import com.udacity.gradle.builditbigger.GetJokeAsyncTask;
 import com.udacity.gradle.builditbigger.R;
 
 import java.util.ArrayList;
-
-//import com.google.android.gms.ads.AdRequest;
-//import com.google.android.gms.ads.AdView;
-//import com.google.android.gms.ads.InterstitialAd;
-//import com.google.android.gms.ads.MobileAds;
 
 
 /**
@@ -66,18 +64,6 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
         mPokeJokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // TODO: Add Interstitial Adv-
-                // Follow these instructions to add an interstitial ad to the free version.
-                // Display the ad after the user hits the button, and before the joke is shown.
-
-                // Only show when it is a FREE application
-//                if( mInterstitial!=null && mInterstitial.isLoaded()) {
-//                    mInterstitial.show();
-//                } else {
-//
-//                    Toast.makeText(getContext(), "Do not show the Ads!", Toast.LENGTH_SHORT).show();
-//                }
 
                 boolean useBackEnd=true;
                 tellJokeByGCEModule(useBackEnd);
@@ -182,6 +168,11 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
         Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
         jokeIntent.putExtra("bundle",bundle);
         startActivity(jokeIntent);
+
+//        if (mIdlingResource !=null) {
+//
+//            mIdlingResource.setIdleState(true);
+//        }
     }
 
     @Override
@@ -203,42 +194,5 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
         jokeIntent.putExtra("bundle",bundle);
         startActivity(jokeIntent);
     }
-
-    // Use an async task to do the data fetch off of the main thread.
-
-//    public class GetJokeAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
-//        // Invoked on UI thread before the task is executed on a background thread
-//        @Override
-//        protected void onPreExecute() {
-//            showProgressIndicator();
-//            super.onPreExecute();
-//        }
-//
-//        // Invoked on a background thread
-//        @Override
-//        protected ArrayList<String> doInBackground(Void... params) {
-//            // Use the Java library's to get the Joke data
-//            ArrayList<String> jokeListFromJavaLib = JokesLibraryClass.getJokes();
-//            return jokeListFromJavaLib;
-//        }
-//
-//        // Invoked on UI thread
-//        @Override
-//        protected void onPostExecute(ArrayList<String> jokeList) {
-//            super.onPostExecute(jokeList);
-//            // init the local Joke list after getting it from the Joke library
-//            mJokeList = jokeList;
-//            removeProgressIndicator();
-//
-//            // Start the ShowJokeActivity to show the Joke
-//            Log.e(TAG,"Pass the Data to the ShowJokeActivity");
-//            Bundle bundle = new Bundle();
-//            bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
-//            Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
-//            jokeIntent.putExtra("bundle",bundle);
-//            startActivity(jokeIntent);
-//        }
-//    }
-//
 
 }
