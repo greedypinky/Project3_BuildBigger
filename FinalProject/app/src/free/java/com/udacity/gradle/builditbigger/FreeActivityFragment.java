@@ -92,7 +92,9 @@ public class FreeActivityFragment extends Fragment implements GCE_EndpointsAsync
                 } else {
                     // Toast.makeText(getContext(), "why mInterstitila is null?" , Toast.LENGTH_SHORT).show();
                     initAds();
-                    mInterstitial.show();
+                    if ( mInterstitial!=null && mInterstitial.isLoaded()) {
+                        mInterstitial.show();
+                    }
                 }
 
                 boolean useBackEnd=true;

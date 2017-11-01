@@ -1,4 +1,4 @@
-package com.udacity.gradle.builditbigger.paid;
+package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.content.Intent;
@@ -55,7 +55,7 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.activity_paid, container, false);
+        View root = inflater.inflate(R.layout.fragment_paid, container, false);
 
         mIndicator = (ProgressBar) root.findViewById(R.id.progress_indicator);
         mPokeJokeButton = (Button) root.findViewById(R.id.but_poke_joke);

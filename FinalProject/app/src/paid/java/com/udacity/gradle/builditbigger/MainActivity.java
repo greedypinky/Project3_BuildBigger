@@ -1,9 +1,10 @@
-package com.udacity.gradle.builditbigger.paid;
+package com.udacity.gradle.builditbigger;
 
 import android.os.Bundle;
 import android.support.v4.BuildConfig;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -24,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paid);
-
+Log.d(TAG, "onCreate:" + BuildConfig.FLAVOR);
         FragmentManager fragmentManager = getSupportFragmentManager();
         Toast.makeText(this, "what is buildConfig.Flavor?" + BuildConfig.FLAVOR , Toast.LENGTH_SHORT).show();
-        if (BuildConfig.FLAVOR.contains(PAID_SUFFIX)) {
+        //if (BuildConfig.FLAVOR.contains(PAID_SUFFIX)) {
             Toast.makeText(this, "This is a paid version", Toast.LENGTH_SHORT).show();
             mGetJokeFragment = (PaidActivityFragment) fragmentManager.findFragmentById(R.id.paid_getjoke_fragment);
 
-        }
+        //}
 
     }
 
