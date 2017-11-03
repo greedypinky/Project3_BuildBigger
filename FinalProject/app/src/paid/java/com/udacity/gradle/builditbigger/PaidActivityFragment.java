@@ -189,7 +189,8 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
         // TODO: pass the Joke here as the Intent to the AndroidLibrary 's Class
         Log.e(TAG,"Pass the Data to the ShowJokeActivity");
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        bundle.putString(ShowJokeActivity.JOKE_KEY, mJoke);
+        // bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
         Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
         jokeIntent.putExtra("bundle",bundle);
         startActivity(jokeIntent);

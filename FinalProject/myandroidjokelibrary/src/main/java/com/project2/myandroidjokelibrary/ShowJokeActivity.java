@@ -14,12 +14,10 @@ public class ShowJokeActivity extends AppCompatActivity {
     public static final String JOKE_KEY = "joke_key";
     public static final String JOKE_LIST_KEY = "joke_list_key";
     public String mCurrentJoke = "default";
-
     //JokeFragment mJokeFragment;
     private TextView mJokeTextContent;
     ArrayList<String> mJokeList = new ArrayList<String>(); // no joke until we get jokes from joke library
     int currentJokeIndex = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +33,14 @@ public class ShowJokeActivity extends AppCompatActivity {
 
         if (savedInstanceState!= null) {
 
-           if (savedInstanceState.containsKey(ShowJokeActivity.JOKE_LIST_KEY)) {
-                mJokeList = savedInstanceState.getStringArrayList(ShowJokeActivity.JOKE_LIST_KEY);
-
-            }
+//            if (savedInstanceState.containsKey(ShowJokeActivity.JOKE_LIST_KEY)) {
+//                mJokeList = savedInstanceState.getStringArrayList(ShowJokeActivity.JOKE_LIST_KEY);
+//
+//            }
 
             if (savedInstanceState.containsKey(ShowJokeActivity.JOKE_KEY)) {
                 mCurrentJoke = savedInstanceState.getString(ShowJokeActivity.JOKE_KEY);
-
+                updateJokeContent(mCurrentJoke);
             }
         } else {
             // start new activity
@@ -51,22 +49,12 @@ public class ShowJokeActivity extends AppCompatActivity {
             Bundle bundle = intent.getBundleExtra("bundle");
             // TODO: get the joke out from intent
             // String joke = (String) bundle.get(JOKE_KEY);
-            if (bundle != null && bundle.containsKey(ShowJokeActivity.JOKE_LIST_KEY)) {
-                ArrayList<String> jokeList = bundle.getStringArrayList(ShowJokeActivity.JOKE_LIST_KEY);
-                mJokeList = jokeList;
-
+            if (bundle != null && bundle.containsKey(ShowJokeActivity.JOKE_KEY)) {
+                mCurrentJoke = bundle.getString(ShowJokeActivity.JOKE_KEY);
+                updateJokeContent(mCurrentJoke);
             }
 
         }
-
-        if (mJokeList!= null && mJokeList.size() > 0) {
-            // mJokeFragment.updateJokeContent(mJokeList.get(0));
-            updateJokeContent(mJokeList.get(0));
-        } else {
-            // mJokeFragment.updateJokeContent(getString(R.string.str_no_joke));
-            updateJokeContent(getString(R.string.str_no_joke));
-        }
-
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -85,13 +73,11 @@ public class ShowJokeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // TODO : save the current Joke
+        // TODO : save the current Joke when rotation occurs
         outState.putString(JOKE_KEY, mCurrentJoke);
-        outState.putStringArrayList(JOKE_LIST_KEY, mJokeList);
+        // outState.putStringArrayList(JOKE_LIST_KEY, mJokeList);
         super.onSaveInstanceState(outState);
     }
 
@@ -108,14 +94,14 @@ public class ShowJokeActivity extends AppCompatActivity {
         if(mJokeList!=null && mJokeList.size() > 1) {
             // we have jokes
             int jokeIndex = currentJokeIndex + 1;
-            if(jokeIndex == mJokeList.size()-1) {
+            if (jokeIndex == mJokeList.size()-1) {
                 // last joke from the list
                 joke =  mJokeList.get(jokeIndex);
                 // reset currentJokeIndex to 0 again
                 currentJokeIndex = 0;
                 //return joke;
             }
-            if(jokeIndex < mJokeList.size()-1) {
+            if (jokeIndex < mJokeList.size()-1) {
                 joke = mJokeList.get(jokeIndex);
                 currentJokeIndex++; // increase the index to get Next Joke
                 //return joke;

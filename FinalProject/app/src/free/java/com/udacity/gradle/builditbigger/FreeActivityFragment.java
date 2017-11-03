@@ -22,6 +22,7 @@ import com.udacity.gradle.builditbigger.BuildConfig;
 import com.udacity.gradle.builditbigger.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -181,7 +182,8 @@ public class FreeActivityFragment extends Fragment implements GCE_EndpointsAsync
         // TODO: pass the Joke here as the Intent to the AndroidLibrary 's Class
         Log.e(TAG,"Pass the Data to the ShowJokeActivity");
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        // bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        bundle.putString(ShowJokeActivity.JOKE_KEY, mJoke);
         Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
         jokeIntent.putExtra("bundle",bundle);
         startActivity(jokeIntent);
@@ -191,17 +193,20 @@ public class FreeActivityFragment extends Fragment implements GCE_EndpointsAsync
     public void getFromLibraryProcessFinish(ArrayList<String> jokeList) {
 
         mJokeList = jokeList;
-        if(mJokeList!= null && mJokeList.size() == 0) {
+        if (mJokeList!= null && mJokeList.size() == 0) {
             mJokeList.add(getString(R.string.defaultJoke));
         }
         // remove the progress indicator
         removeProgressIndicator();
-
         // else we have joke data
         // TODO: pass the Joke here as the Intent to the AndroidLibrary 's Class
         Log.e(TAG,"Pass the Data to the ShowJokeActivity");
+        Random random = new Random();
+        int index = random.nextInt(mJokeList.size());
+        mJoke = mJokeList.get(index);
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        // bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        bundle.putString(ShowJokeActivity.JOKE_KEY, mJoke);
         Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
         jokeIntent.putExtra("bundle",bundle);
         startActivity(jokeIntent);

@@ -40,7 +40,7 @@ public class GetJokeAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
     protected void onPostExecute(ArrayList<String> jokeList) {
         super.onPostExecute(jokeList);
 
-        Log.d("GCE_EndpointsAsyncTask","Joke from the EndPoint's API Service:" + jokeList.size());
+        Log.d("GetJokeAsyncTask","Joke from the EndPoint's API Service:" + jokeList.size());
         if (delegate!=null) {
             delegate.getFromLibraryProcessFinish(jokeList); // use callback to pass back the result
         }
