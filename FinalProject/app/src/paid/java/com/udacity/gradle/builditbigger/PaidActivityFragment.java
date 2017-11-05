@@ -23,6 +23,7 @@ import com.udacity.gradle.builditbigger.GetJokeAsyncTask;
 import com.udacity.gradle.builditbigger.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -159,20 +160,15 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
 
         // remove the progress indicator
         removeProgressIndicator();
-
-        // else we have joke data
         // TODO: pass the Joke here as the Intent to the AndroidLibrary 's Class
         Log.e(TAG,"Pass the Data to the ShowJokeActivity");
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        //bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
+        bundle.putString(ShowJokeActivity.JOKE_KEY, mJoke);
         Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
         jokeIntent.putExtra("bundle",bundle);
         startActivity(jokeIntent);
 
-//        if (mIdlingResource !=null) {
-//
-//            mIdlingResource.setIdleState(true);
-//        }
     }
 
     @Override
@@ -184,11 +180,13 @@ public class PaidActivityFragment extends Fragment implements GCE_EndpointsAsync
         }
         // remove the progress indicator
         removeProgressIndicator();
-
         // else we have joke data
         // TODO: pass the Joke here as the Intent to the AndroidLibrary 's Class
         Log.e(TAG,"Pass the Data to the ShowJokeActivity");
         Bundle bundle = new Bundle();
+        Random random = new Random();
+        int index = random.nextInt(mJokeList.size());
+        mJoke = mJokeList.get(index);
         bundle.putString(ShowJokeActivity.JOKE_KEY, mJoke);
         // bundle.putStringArrayList(ShowJokeActivity.JOKE_LIST_KEY, mJokeList);
         Intent jokeIntent = new Intent(getActivity(), ShowJokeActivity.class);
