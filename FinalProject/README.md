@@ -1,3 +1,6 @@
+# rubrics of this project
+https://review.udacity.com/#!/rubrics/61/view
+
 # Gradle for Android and Java Final Project
 
 In this project, you will create an app with multiple flavors that uses
